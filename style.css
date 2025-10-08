@@ -1,107 +1,228 @@
-body{
-    background-color: rgb(0, 0, 0); height: 125vh;
-    padding: 5px;
+:root {
+  --primary-color: #c40202;
+  --primary-hover: #e00000;
+  --dark-bg: #000000;
+  --card-bg: #121212;
+  --text-color: #ffffff;
+  --border-color: #333333;
+  --font-family: 'Poppins', sans-serif;
 }
 
-
-/* Home page styling */
-#inh{
-    background-color:#c40202;             /*medibot header */
-    font-family: "Poppins", 'Times New Roman', Times, serif;
-    font: weight 450px;;
-    font-style: bold;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    opacity: 1;
-    width:auto;
-    border-radius: 10px;
-}        
-#container{
-    display: flex;
-    justify-content: space-evenly;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.iimg{                   /*BAYMAX IMAGE*/
-    height: 225px;
-    border-radius:10%;
-    border: 25px solid#ffffff;
-    text-align: center;
-    gap: 20px;
-}
-.iimg:hover{
-    transform: scale(1.07);
-    transition-duration: 0.35s;
-    box-shadow: 1px 1.5px 2.5px rgb(177, 171, 171);
-}
-.item p{
-  color: #ffffff;
-  font-size: 2em;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Navigation bar */ /*@@@@@@@@@@@@*/
-header img {    
-    height: 5 px;
-    max-width: 400px;
-    margin-left: 425px;
-  }
-  header * {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-
-/*+++++++ Style the header with a grey background and some padding */
-.header {
-  overflow: hidden;                    /*HEADER BAR */
-  background-color: #000000;
-  padding: 20px 10px;
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  line-height: 1.6;
 }
 
-/* Style the header links */
-.header a {                            /*COMPANY LOGO*/
-  float: left;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  padding: 12px;
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.main-nav a {
+  color: var(--text-color);
   text-decoration: none;
   font-size: 18px;
-  line-height: 25px;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-.header a.logo {
-  font-size: 25px;
-  font-weight: bold;
+.main-nav a:hover,
+.main-nav a.active {
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
-/* Change the background color on mouse-over */
-.header a:hover {
-  background-color: #bf0000;
-  color: rgb(255, 255, 255);
+.main-nav a.login-btn {
+  border: 2px solid var(--primary-color);
+  margin-left: 15px;
 }
 
-/* Style the active/current link*/
-.header a.active {
-  background-color: rgb(0, 0, 0);
-  color: white;
+.main-nav a.login-btn:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
 }
 
-/* Float the link section to the right */
-.header-right {
-  float: right;
+.hero {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(10, 0, 0, 0.9), rgba(30, 0, 0, 0.8));
 }
 
-/* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-image-container {
+    flex-shrink: 0;
+}
+
+.hero-image {
+    max-width: 350px;
+    height: auto;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+	0% { transform: translateY(0px); }
+	50% { transform: translateY(-20px); }
+	100% { transform: translateY(0px); }
+}
+
+.features-section {
+  padding: 80px 0;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 50px;
+  color: var(--text-color);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(196, 2, 2, 0.25);
+}
+
+.card-link {
     display: block;
-    text-align: left;
+    padding: 30px;
+    text-decoration: none;
+    color: var(--text-color);
+    height: 100%;
+}
+
+.icon-placeholder {
+    font-size: 70px;
+    line-height: 1;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.site-footer {
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 50px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+}
+
+.site-footer p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+@media screen and (max-width: 900px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-image {
+        max-width: 300px;
+        margin-top: 30px;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+  .main-nav {
+      display: none;
   }
-  .header-right {
-    float: none;
+  .login-btn {
+      display: block;
   }
+}
+
+@media screen and (max-width: 500px) {
+    .site-header .container {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
