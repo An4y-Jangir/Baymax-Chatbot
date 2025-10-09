@@ -9,8 +9,10 @@ CORS(app)
 
 # --- SambaNova Specific Settings ---
 # You MUST replace this with a model ID that is available in your SambaNova account.
-# Common example:
 SAMBANOVA_MODEL_NAME = "Meta-Llama-3.1-8B-Instruct" 
+
+# **FIX: Define a clear maximum token limit (or a very high number to simulate no limit)**
+MAX_TOKENS = 2048 
 
 # Load credentials and endpoint URL from environment variables first
 SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY") 
@@ -20,22 +22,8 @@ SAMBANOVA_BASE_ENDPOINT = os.getenv("SAMBANOVA_ENDPOINT")
 if not SAMBANOVA_API_KEY or not SAMBANOVA_BASE_ENDPOINT:
     print("WARNING: Using hardcoded fallback credentials. Set environment variables for security.")
     SAMBANOVA_API_KEY = "7ebdda92-a86d-4949-b373-2eee9fe1617c"
-    SAMBANOVA_BASE_ENDPOINT = "https://api.sambanova.ai/v1" # Use the base URL here
+    SAMBANOVA_BASE_ENDPOINT = "https://api.sambanova.ai/v1" 
 
-# **THE FIX:** Construct the final API URL by appending the model path
-# The final endpoint often looks like: https://api.sambanova.ai/v1/predict/model_name
-# NOTE: The exact structure might vary; check your SambaNova documentation, 
-# but this is a common structure for dedicated prediction endpoints.
-# If using the base '/v1/chat/completions' from the previous step, you may need a different URL structure.
-# Let's try the common '/predict/' structure.
-# If the '/v1/chat/completions' approach truly doesn't work, this is a strong alternative.
-
-# Let's stick closer to the error message structure and assume the model ID is the issue:
-# For true OpenAI compatibility (which uses /chat/completions), the model ID SHOULD be in the body.
-# If the 404 persists, we will try the '/predict' structure below.
-
-# --- The /chat/completions endpoint (Assuming the base works and the model body is key) ---
-# Use the endpoint you previously set.
 FINAL_API_URL = "https://api.sambanova.ai/v1/chat/completions"
 
 
@@ -43,6 +31,10 @@ FINAL_API_URL = "https://api.sambanova.ai/v1/chat/completions"
 
 @app.route('/')
 def index():
+    # NOTE: The client-side template name needs to match. 
+    # Your HTML file was named 'chatindex.html' in the initial prompt, 
+    # but the Python code calls for 'index.html'. I will use 'index.html' 
+    # as per this file, assuming you renamed or moved the client file.
     return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
@@ -58,18 +50,17 @@ def chat():
         "Content-Type": "application/json",
     }
 
-    # **THE FIX:** The Model Name is NOW CORRECTLY POPULATED.
     request_data = {
-        "model": SAMBANOVA_MODEL_NAME, # <--- **FIXED: This is now a variable with a real ID**
+        "model": SAMBANOVA_MODEL_NAME, 
         "messages": [
             {"role": "user", "content": user_message}
         ],
-        "max_tokens": 100,
+        # **FIX: Use the new, higher MAX_TOKENS variable**
+        "max_tokens": MAX_TOKENS, 
         "temperature": 0.7 
     }
 
     try:
-        # Use the finalized endpoint URL
         response = requests.post(FINAL_API_URL, json=request_data, headers=headers)
         response.raise_for_status() 
         api_data = response.json()
@@ -83,7 +74,6 @@ def chat():
         return jsonify({"response": bot_response})
 
     except requests.exceptions.HTTPError as errh:
-        # Include more error detail if available
         error_detail = response.json().get('detail', str(errh)) if 'response' in locals() and response.content else str(errh)
         return jsonify({"response": f"API Error ({response.status_code}): {error_detail}. Check your API Key and Model ID ({SAMBANOVA_MODEL_NAME})."}), 500
     except requests.exceptions.RequestException as e:
