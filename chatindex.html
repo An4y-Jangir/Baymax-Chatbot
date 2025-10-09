@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="chat-container">
-        <h1>Medibot AI Companion- Baymax</h1>
+        <h1>Medibot AI Companion- <span class="animated-name">Baymax</span></h1>
         <div class="chat-box" id="chat-box">
             <div class="message bot-message">Welcome! </div>
         </div>
@@ -26,7 +26,7 @@
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', `${sender}-message`);
-            messageDiv.innerHTML = text; // Use innerHTML to allow basic formatting
+            messageDiv.innerHTML = text; 
             chatBox.appendChild(messageDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
@@ -42,7 +42,6 @@
             userInput.disabled = true;
 
             try {
-                // IMPORTANT: This calls your Flask backend, not the external AI API
                 const response = await fetch('http://localhost:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
