@@ -21,7 +21,7 @@ SAMBANOVA_BASE_ENDPOINT = os.getenv("SAMBANOVA_ENDPOINT")
 # Check for required credentials and use fallbacks
 if not SAMBANOVA_API_KEY or not SAMBANOVA_BASE_ENDPOINT:
     print("WARNING: Using hardcoded fallback credentials. Set environment variables for security.")
-    SAMBANOVA_API_KEY = "7ebdda92-a86d-4949-b373-2eee9fe1617c"
+    SAMBANOVA_API_KEY = "5f4a6ce6-40b5-4db8-b485-e5f1a3392af3"
     SAMBANOVA_BASE_ENDPOINT = "https://api.sambanova.ai/v1" 
 
 FINAL_API_URL = "https://api.sambanova.ai/v1/chat/completions"
@@ -68,6 +68,7 @@ def chat():
 
     try:
         response = requests.post(FINAL_API_URL, json=request_data, headers=headers)
+        # Check if the response status is 4xx or 5xx
         response.raise_for_status() 
         api_data = response.json()
         
@@ -84,20 +85,53 @@ def chat():
 
         return jsonify({"response": bot_response})
 
+    # --- ENHANCED EXCEPTION HANDLING ---
+    
     except requests.exceptions.HTTPError as errh:
-        # On API error, remove the last user message so it can be retried or not pollute the history
+        # On API error, remove the last user message
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
-        error_detail = response.json().get('detail', str(errh)) if 'response' in locals() and response.content else str(errh)
-        return jsonify({"response": f"API Error ({response.status_code}): {error_detail}. Check your API Key and Model ID ({SAMBANOVA_MODEL_NAME})."}), 500
+            
+        error_status_code = response.status_code if 'response' in locals() else 500
+        
+        # Try to parse the API's detailed error message
+        error_detail = "Unknown API Error"
+        if 'response' in locals() and response.content:
+            try:
+                error_detail = response.json().get('detail', str(errh))
+            except requests.exceptions.JSONDecodeError:
+                error_detail = response.text # Use raw text if JSON parsing fails
+        
+        # Explicitly handle the 429 error
+        if error_status_code == 429:
+            return jsonify({"response": f"API Error ({error_status_code} TOO MANY REQUESTS): You have exceeded the rate limit. Please wait a moment before trying again."}), 429
+
+        # Handle all other HTTP errors (4xx/5xx)
+        return jsonify({"response": f"API Error ({error_status_code}): {error_detail}. Check your API Key and Model ID ({SAMBANOVA_MODEL_NAME})."}), error_status_code
+        
+    except requests.exceptions.ConnectionError as errc:
+        # Catch connection failures (e.g., DNS error, connection refused)
+        if conversation_history and conversation_history[-1]['role'] == 'user':
+            conversation_history.pop()
+        return jsonify({"response": f"Connection Error: Could not connect to the SambaNova API: {errc}"}), 503
+        
+    except requests.exceptions.Timeout as errt:
+        # Catch timeout errors
+        if conversation_history and conversation_history[-1]['role'] == 'user':
+            conversation_history.pop()
+        return jsonify({"response": f"Timeout Error: The request to the SambaNova API timed out: {errt}"}), 504
+        
     except requests.exceptions.RequestException as e:
+        # Catch any other requests-related exception (e.g., invalid URL)
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
-        return jsonify({"response": f"Connection Error: {e}"}), 500
+        return jsonify({"response": f"A general Request Error occurred: {e}"}), 500
+        
     except Exception as e:
+        # Catch unexpected Python errors
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
-        return jsonify({"response": f"An unexpected error occurred: {e}"}), 500
+        return jsonify({"response": f"An unexpected internal error occurred: {e}"}), 500
 
 @app.route('/reset', methods=['POST'])
 def reset_chat():
@@ -109,4 +143,5 @@ def reset_chat():
 
 # --- Main Run Block ---
 if __name__ == '__main__':
+    # Setting debug to True allows for immediate feedback during development
     app.run(host='0.0.0.0', port=5000, debug=True)
