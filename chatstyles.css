@@ -2,10 +2,13 @@
 
 /* --- General Body and Container Styles --- */
 body {
-    background-color: #121212; /* Deeper black for background */
-    font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif; /* Adding 'Roboto' for a modern look */
+    /* MODIFICATION: Background Gradient */
+    /* Creates a linear gradient from a deep black (#121212) to a dark red (#400000) */
+    background: linear-gradient(180deg, #121212 0%, #400000 100%); 
+    
+    font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif; 
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Keeping this to center the chat container */
     align-items: center;
     min-height: 100vh;
     margin: 0;
@@ -63,8 +66,8 @@ h1 {
 
 /* --- Chat Box Styles (The Message Area) --- */
 .chat-box {
-    height: 400px; /* Slightly taller chat box */
-    overflow-y: auto;
+    height: 450px; /* Slightly taller chat box */
+    overflow-y: 700px;
     padding: 20px;
     border: 1px solid #444; 
     border-radius: 10px; /* Slightly more rounded */
