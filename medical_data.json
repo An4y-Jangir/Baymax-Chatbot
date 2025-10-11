@@ -7,7 +7,7 @@
         "treatment": "Rest, hydration, over-the-counter pain relievers.",
         "recommended_doctors_india": [
             {"name": "Dr. Ramesh Gupta", "specialty": "General Physician, Delhi", "contact": "tel:+919876543210"},
-            {"name": "Dr. Priya Sharma", "specialty": "Internal Medicine, Mumbai", "contact": "https://www.priyasharma.com/clinic"}
+            {"name": "Dr. Adip K Shetty", "specialty": "ENT Specialist, Mumbai", "contact": "https://www.practo.com/mumbai/doctor/adip-k-shetty"}
         ]
     },
     {
@@ -17,7 +17,7 @@
         "symptoms": "High fever, body aches, extreme fatigue, headache, cough.",
         "treatment": "Antiviral drugs (if prescribed), rest, isolation.",
         "recommended_doctors_india": [
-            {"name": "Dr. Anand Singh", "specialty": "Pulmonologist, Bengaluru", "contact": "https://bangalorelungcare.in"},
+            {"name": "Dr. Anil Kumar Singh", "specialty": "Pulmonologist, Delhi", "contact": "https://www.practo.com/delhi/doctor/dr-anil-kumar-singh-pulmonologist-1"},
             {"name": "Dr. Zoya Khan", "specialty": "Infectious Disease Specialist, Chennai", "contact": "tel:+919000011111"}
         ]
     },
@@ -29,7 +29,7 @@
         "treatment": "Triptans, preventative medication, dark, quiet room.",
         "recommended_doctors_india": [
             {"name": "Dr. Sanjay Rao", "specialty": "Neurologist, Hyderabad", "contact": "tel:+919876512345"},
-            {"name": "Dr. Leena Desai", "specialty": "Headache Specialist, Pune", "contact": "https://www.puneneurology.org"}
+            {"name": "Dr. Amit Shah", "specialty": "Neurologist, Mumbai", "contact": "tel:+9198195 61456"}
         ]
     },
     {
@@ -50,7 +50,7 @@
         "treatment": "medical dosage(differs from person to person), cognitive and brain exercises.",
         "recommended_doctors_india": [
             {"name": "Dr. Ansari Rahil", "specialty": "Neurologist, Mumbai", "contact": "+91-02248972418"},
-             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://wockhardthospitals.com/mumbai/"}
+             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://www.practo.com/mumbai/doctor/dr-chandra-veer-singh-ear-nose-throat-ent-specialist-1"}
         ]
     },
     {
@@ -60,7 +60,7 @@
         "symptoms": "psychic symptoms, staring in space, loss of consciousness, abnormal brain activities.",
         "treatment": "consult proper doctor, stress management, healthy diet.",
         "recommended_doctors_india": [
-             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://wockhardthospitals.com/mumbai/"},
+             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://www.practo.com/mumbai/doctor/dr-chandra-veer-singh-ear-nose-throat-ent-specialist-1"},
              {"name": "Dr. Ansari Rahil", "specialty": "Neurologist, Mumbai", "contact": "+91-02248972418"}
         ]
     },
@@ -72,9 +72,146 @@
         "treatment": "control blood pressure, manage cholestrol, do exercises.",
         "recommended_doctors_india": [
              {"name": "Dr. Ashish Agrawal", "specialty": "Cardiologist, LBS Marg, Mumbai", "contact": "+91-02248933268"},
-            {"name": "Dr. Praveen Gangurde", "specialty": "Cardiologist, Mumbai", "contact": "https://a1hospitals.co.in/doctors/"}
+            {"name": "Dr. Praveen Gangurde", "specialty": "Cardiologist, Mumbai", "contact": "https://www.practo.com/mumbai/doctor/dr-praveen-gangurde-cardiologist"}
 
         ]
+    },
+    {
+        "id": 7,
+        "name": "Parkinson's Disease",
+        "keywords": "tremor, slow movement, muscle stiffness, shuffling, bad balance, small handwriting",
+        "symptoms": "A tremor that typically starts in a hand or fingers when at rest (pill-rolling tremor), slowed movement (bradykinesia), rigid muscles, impaired posture and balance, shuffling steps, and smaller handwriting (micrographia).",
+        "treatment": "Always consult your neurologist. Engage in regular physical activity, maintain a healthy diet, manage stress with techniques like yoga or meditation, and ensure you get adequate sleep.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Ansari Rahil",
+                "specialty": "Neurologist, Mumbai",
+                "contact": "+91-02248972418"
+            },
+            {
+                "name": "Dr. Chandra Veer Singh",
+                "specialty": "Neurologists, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-chandra-veer-singh-ear-nose-throat-ent-specialist-1"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Multiple Sclerosis (MS)",
+        "keywords": "fatigue, numbness, tingling, muscle weakness, vision problems, dizziness, cognitive changes",
+        "symptoms": "Debilitating fatigue, numbness or tingling in limbs, muscle weakness or stiffness (spasticity), vision problems like blurred or double vision, dizziness, and cognitive difficulties with memory or concentration.",
+        "treatment": "Coordinate with your healthcare provider. Regular exercise, a nutrient-rich diet, stress management, and good sleep hygiene are recommended to manage symptoms.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Ansari Rahil",
+                "specialty": "Neurologist, Mumbai",
+                "contact": "+91-02248972418"
+            },
+            {
+                "name": "Dr. Chandra Veer Singh",
+                "specialty": "Neurologists, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-chandra-veer-singh-ear-nose-throat-ent-specialist-1"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Peripheral Artery Disease (PAD)",
+        "keywords": "leg cramps, leg pain, leg numbness, cold feet, slow healing sores, weak leg pulse",
+        "symptoms": "Painful muscle cramping in the legs during exercise (claudication), leg numbness or weakness, coldness in one foot compared to the other, slow-healing sores on legs or feet, and a weak pulse in the leg.",
+        "treatment": "Lifestyle changes including diet and exercise are key. It is important to control blood pressure and manage cholesterol, often with medication.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Ashish Agrawal",
+                "specialty": "Cardiologist, LBS Marg, Mumbai",
+                "contact": "+91-02248933268"
+            },
+            {
+                "name": "Dr. Praveen Gangurde",
+                "specialty": "Cardiologist, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-praveen-gangurde-cardiologist"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Irritable Bowel Syndrome (IBS)",
+        "keywords": "abdominal pain, bloating, gas, diarrhea, constipation, mucus in stool",
+        "symptoms": "Abdominal pain or cramping, a bloated feeling, gas, and diarrhea or constipation. Some people may have mucus in their stool or feel like a bowel movement is incomplete.",
+        "treatment": "Stress management through techniques like meditation or yoga is beneficial. Regular exercise, adequate sleep, and avoiding smoking and excessive alcohol can also improve symptoms.",
+        "recommended_doctors_india": [{
+                "name": "Dr. Imran Shaikh",
+                "specialty": "Gastroenterologist, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-imran-shaikh-general-surgeon?practice_id=679125&specialization=Irritable%20bowel%20syndrome%20(%20ibs%20)%20treatment&referrer=doctor_listing&page_uid=92572d9a-0294-4172-8aae-68a79a861013&category_name=service&category_id=518"
+            }]
+    },
+    {
+        "id": 11,
+        "name": "Gastroesophageal Reflux Disease (GERD)",
+        "keywords": "heartburn, acid reflux, regurgitation, chest pain, chronic cough, sore throat",
+        "symptoms": "A burning sensation in the chest (heartburn), regurgitation of food or sour liquid, difficulty swallowing, and a chronic cough or sore throat.",
+        "treatment": "Managing stress is important as the gut and brain are connected. Aim for 7-9 hours of quality sleep per night and avoid heavy alcohol consumption and smoking, which can irritate the digestive lining.",
+        "recommended_doctors_india": [ {
+                "name": "Dr. Gautam Nandkarni",
+                "specialty": "MS-General Surgery, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-gautam-nadkarni-general-surgeon?practice_id=708747&specialization=Fundoplication&referrer=doctor_listing&page_uid=a6aab33f-a1a4-4e27-8f6f-0950a331cf2a&procedure=fundoplication&category_name=procedure&category_id=129"
+            }]
+    },
+    {
+        "id": 12,
+        "name": "Cystic Fibrosis (CF)",
+        "keywords": "salty skin, persistent cough, thick mucus, lung infections, poor growth, greasy stools",
+        "symptoms": "Very salty-tasting skin, a persistent cough that produces thick mucus, wheezing, frequent lung infections like pneumonia or bronchitis, and poor weight gain despite a good appetite.",
+        "treatment": "Focus on improving coping strategies and mental health. Connecting with support groups can help you share experiences and feel less isolated. Being an informed patient is also a key part of management.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Badshah Khan",
+                "specialty": "Pediatrician, Mumbai",
+                "contact": "+91-08047095389"
+            },
+            {
+                "name": "Dr. Ankit Gupta",
+                "specialty": "Pediatrician, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/ankit-gupta-3-pediatrician"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Sickle Cell Disease",
+        "keywords": "pain crisis, anemia, fatigue, swollen hands, sickle cell, frequent infections",
+        "symptoms": "Episodes of severe pain (pain crises), anemia leading to fatigue, swelling of hands and feet, frequent infections, and delayed growth.",
+        "treatment": "Interventions aimed at improving mental health and coping strategies are beneficial. Support networks can provide access to resources and reduce feelings of isolation.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Amit Chakraborty",
+                "specialty": "Oncologist, Mumbai",
+                "contact": "+91-08047094895"
+            },
+            {
+                "name": "Dr. Jay Anam",
+                "specialty": " Surgical Oncologist, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-jay-anam-general-physician"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Huntington's Disease",
+        "keywords": "chorea, jerky movements, cognitive decline, depression, difficulty swallowing, slurred speech",
+        "symptoms": "Involuntary jerky movements (chorea), cognitive decline affecting memory and judgment, psychiatric symptoms like depression and irritability, and muscle problems like rigidity or dystonia.",
+        "treatment": "Focus on psychological well-being and coping strategies. It is helpful to connect with support networks and advocate for resources and research.",
+        "recommended_doctors_india": [
+            {
+                "name": "Dr. Ansari Rahil",
+                "specialty": "Neurologist, Mumbai",
+                "contact": "+91-02248972418"
+            },
+            {
+                "name": "Dr. Chandra Veer Singh",
+                "specialty": "Neurologists, Mumbai",
+                "contact": "https://www.practo.com/mumbai/doctor/dr-chandra-veer-singh-ear-nose-throat-ent-specialist-1"
+            }
+        ]
     }
-    
 ]
