@@ -6,17 +6,38 @@
     <title>Medibot-Baymax</title>
     <link rel="stylesheet" href="chatstyles.css">
 </head>
+
 <body>
-    <div class="chat-container">
-        <h1>Medibot AI Companion- <span class="animated-name">Baymax</span></h1>
-        <div class="chat-box" id="chat-box">
-            <div class="message bot-message">Welcome! </div>
+
+    <header class="site-header">
+        <div class="container">
+          <a href="index.html" class="logo">MKure</a>
+          <nav class="main-nav">
+            <a href="index.html">Home</a> 
+            <a href="fadindex1.html" class="doc-btn">Contact Doctors</a>
+            <a href="login.html" class="login-btn">Login</a>
+          </nav>
         </div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Type your message..." required>
-            <button type="submit">Send</button>
-        </form>
-    </div>
+    </header>
+
+    <main>
+        <div class="chat-container">
+            <h1>Medibot AI Companion- <span class="animated-name">Baymax</span></h1>
+            <div class="chat-box" id="chat-box">
+                <div class="message bot-message">Welcome! </div>
+            </div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Type your message..." required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 MKure. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         const chatForm = document.getElementById('chat-form');
@@ -66,5 +87,6 @@
             }
         });
     </script>
+    
 </body>
 </html>
