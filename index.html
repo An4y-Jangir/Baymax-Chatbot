@@ -1,78 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medibot AI Companion - Baymax</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medibot-Baymax</title>
+    <!-- Assuming chatstyles.css is in the same directory -->
+    <link rel="stylesheet" href="chatstyles.css">
 </head>
 
 <body>
-
-  <header class="site-header">
-    <div class="container">
-      <a href="#home" class="logo">MKure</a>
-      <nav class="main-nav">
-        <a class="active" href="#home">Home</a>
-        <a href="doc.html" class="doc-btn">Contact Doctors</a>
-        <a href="login.html" class="login-btn">Login</a>
-      </nav>
+    <div class="chat-container">
+        <h1>Medibot AI Companion- <span class="animated-name">Baymax</span></h1>
+        <div class="chat-box" id="chat-box">
+            <div class="message bot-message">Hello! I am Baymax, your personal healthcare companion. On a scale of 1 to 10, how would you rate your pain?</div>
+        </div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
     </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">⚕️ Medibot AI Companion ⚕️</h1>
-          <p class="hero-subtitle">Hi! I am Baymax, your personal health companion. How can I assist you today?</p>
-        </div>
-        <div class="hero-image-container">
-            <div class="image-wrapper baymax-wrapper">
-                <img src="data:image/jpeg;base64,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" alt="Baymax">
-            </div>
-            <div class="image-wrapper mkure-wrapper">
-                <img src="https://i.pinimg.com/736x/78/85/67/788567d42c34ab8b31504d580b3595c1.jpg" alt="MKurelogo">
-            </div>
-        </div>
-      </div>
-    </section>
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatBox = document.getElementById('chat-box');
 
-    <section id="features" class="features-section">
-      <div class="container">
-        <h2 class="section-title">What would you like to do?</h2>
-        <div class="features-grid">
-
-          <div class="feature-card">
-            <a href="chatindex.html" class="card-link">
-              <div class="icon-placeholder">ߔ</div>
-              <h3>Symptom Checker</h3>
-              <p>Analyze your symptoms for a potential diagnosis.</p>
-            </a>
-          </div>
-
-          <div class="feature-card">
-            <a href="doc.html" class="card-link">
-              <div class="icon-placeholder">ߩ</div>
-              <h3>Find a Doctor</h3>
-              <p>Locate nearby specialists and clinics.</p>
-            </a>
-          </div>
+        // --- TEXT-TO-SPEECH FUNCTION ---
+        function speakText(text) {
+            // Check if the browser supports the Web Speech API
+            if ('speechSynthesis' in window) {
+                // First, cancel any existing speech to prevent messages from overlapping
+                window.speechSynthesis.cancel(); 
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set a slightly slower rate (0.9) to mimic Baymax's calm and deliberate voice
+                utterance.rate = 0.9; 
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.warn("Text-to-Speech not supported in this browser.");
+            }
+        }
 
 
-        </div>
-      </div>
-    </section>
-  </main>
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            messageDiv.innerHTML = text; 
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-  <footer class="site-footer">
-    <div class="container">
-        <p>&copy; 2025 MKure. All rights reserved.</p>
-    </div>
-  </footer>
+            // If the message is from the bot, trigger the voice output
+            if (sender === 'bot') {
+                speakText(text);
+            }
+        }
+
+        // Initialize the conversation with a spoken message from the bot
+        // We delay it slightly to ensure the voices have loaded.
+        document.addEventListener('DOMContentLoaded', () => {
+             // Initial message text is already in the HTML, we'll just speak it.
+             const initialMessage = document.querySelector('.bot-message').textContent;
+             setTimeout(() => speakText(initialMessage), 500); 
+        });
+
+        chatForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+            
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+
+            // Stop any current speech when the user sends a new message
+            window.speechSynthesis.cancel();
+
+            addMessage(userMessage, 'user');
+            userInput.value = ''; 
+            userInput.disabled = true;
+
+            try {
+                // Assuming your Python Flask app is running on localhost:5000
+                const response = await fetch('http://localhost:5000/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessage })
+                });
+
+                const data = await response.json();
+                const responseText = data.response;
+
+                if (response.ok) {
+                    // The addMessage function will call speakText automatically
+                    addMessage(responseText, 'bot'); 
+                } else {
+                    addMessage(`Error: ${responseText}`, 'bot');
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                addMessage('Network Error: Could not reach the Python backend.', 'bot');
+            } finally {
+                userInput.disabled = false;
+                userInput.focus();
+            }
+        });
+    </script>
 </body>
 </html>
