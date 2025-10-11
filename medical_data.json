@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "name": "Common Cold",
+        "keywords": "fever, sniffles, congestion",
+        "symptoms": "Runny nose, sneezing, sore throat, mild fever.",
+        "treatment": "Rest, hydration, over-the-counter pain relievers.",
+        "recommended_doctors_india": [
+            {"name": "Dr. Ramesh Gupta", "specialty": "General Physician, Delhi", "contact": "tel:+919876543210"},
+            {"name": "Dr. Priya Sharma", "specialty": "Internal Medicine, Mumbai", "contact": "https://www.priyasharma.com/clinic"}
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Influenza (Flu)",
+        "keywords": "high fever, body aches, exhaustion",
+        "symptoms": "High fever, body aches, extreme fatigue, headache, cough.",
+        "treatment": "Antiviral drugs (if prescribed), rest, isolation.",
+        "recommended_doctors_india": [
+            {"name": "Dr. Anand Singh", "specialty": "Pulmonologist, Bengaluru", "contact": "https://bangalorelungcare.in"},
+            {"name": "Dr. Zoya Khan", "specialty": "Infectious Disease Specialist, Chennai", "contact": "tel:+919000011111"}
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Migraine",
+        "keywords": "headache, nausea, light sensitivity",
+        "symptoms": "Severe, throbbing headache, often on one side; sensitivity to light and sound; nausea.",
+        "treatment": "Triptans, preventative medication, dark, quiet room.",
+        "recommended_doctors_india": [
+            {"name": "Dr. Sanjay Rao", "specialty": "Neurologist, Hyderabad", "contact": "tel:+919876512345"},
+            {"name": "Dr. Leena Desai", "specialty": "Headache Specialist, Pune", "contact": "https://www.puneneurology.org"}
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Allergies",
+        "keywords": "itchy eyes, hay fever, seasonal",
+        "symptoms": "Itchy or watery eyes, sneezing, nasal congestion, hives.",
+        "treatment": "Antihistamines, nasal sprays, avoiding triggers.",
+        "recommended_doctors_india": [
+            {"name": "Dr. Rohit Hegde", "specialty": "Allergist/Immunologist, Mumbai", "contact": "https://www.practo.com/mumbai/doctor/dr-rohit-hegde-allergist-immunologist"}
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Alzheimer's Disease",
+        "keywords": "memory loss, losing interest, disorientation, poor judgement",
+        "symptoms": "memory loss, language issues, forgetting things, no interest.",
+        "treatment": "medical dosage(differs from person to person), cognitive and brain exercises.",
+        "recommended_doctors_india": [
+            {"name": "Dr. Ansari Rahil", "specialty": "Neurologist, Mumbai", "contact": "+91-02248972418"},
+             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://wockhardthospitals.com/mumbai/"}
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Epilepsy",
+        "keywords": "seizures, temporary confusion leading to seizures, random spasms, loss of conciousness",
+        "symptoms": "psychic symptoms, staring in space, loss of consciousness, abnormal brain activities.",
+        "treatment": "consult proper doctor, stress management, healthy diet.",
+        "recommended_doctors_india": [
+             {"name": "Dr. Chandra Veer Singh", "specialty": "Neurologists, Mumbai", "contact": "https://wockhardthospitals.com/mumbai/"},
+             {"name": "Dr. Ansari Rahil", "specialty": "Neurologist, Mumbai", "contact": "+91-02248972418"}
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Coronary Heart Disease (CHD",
+        "keywords": "pain in chest, breathlessness, palpitations, fatigue, nausea",
+        "symptoms": "pain in chest, breathlessness, palpitations, nausea, random fatigues.",
+        "treatment": "control blood pressure, manage cholestrol, do exercises.",
+        "recommended_doctors_india": [
+             {"name": "Dr. Ashish Agrawal", "specialty": "Cardiologist, LBS Marg, Mumbai", "contact": "+91-02248933268"},
+            {"name": "Dr. Praveen Gangurde", "specialty": "Cardiologist, Mumbai", "contact": "https://a1hospitals.co.in/doctors/"}
+
+        ]
+    }
+    
+]
