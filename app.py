@@ -7,141 +7,156 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app) 
 
-# --- SambaNova Specific Settings ---
-# You MUST replace this with a model ID that is available in your SambaNova account.
-SAMBANOVA_MODEL_NAME = "Meta-Llama-3.1-8B-Instruct" 
+# --- Gemini API Settings ---
+# We will use a standard, fast chat model for this companion
+GEMINI_MODEL_NAME = "gemini-2.5-flash-preview-05-20" 
 
-# **FIX: Define a clear maximum token limit**
+# Define a clear maximum token limit for the bot's response
 MAX_TOKENS = 2048 
+# Set a creative temperature for the model
+TEMPERATURE = 0.7
 
-# Load credentials and endpoint URL from environment variables first
-SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY") 
-SAMBANOVA_BASE_ENDPOINT = os.getenv("SAMBANOVA_ENDPOINT") 
+# Load credentials from environment variables first
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") 
 
-# Check for required credentials and use fallbacks
-if not SAMBANOVA_API_KEY or not SAMBANOVA_BASE_ENDPOINT:
-    print("WARNING: Using hardcoded fallback credentials. Set environment variables for security.")
-    SAMBANOVA_API_KEY = "5f4a6ce6-40b5-4db8-b485-e5f1a3392af3"
-    SAMBANOVA_BASE_ENDPOINT = "https://api.sambanova.ai/v1" 
+# Check for required credentials and use the provided hardcoded key as fallback
+if not GEMINI_API_KEY:
+    print("WARNING: Using hardcoded fallback API key. Set environment variable GEMINI_API_KEY for security.")
+    # Using the key provided by the user
+    GEMINI_API_KEY = "AIzaSyCYOUsVToqKD61Ln2gSjQva05nX4d2_AtA"
 
-FINAL_API_URL = "https://api.sambanova.ai/v1/chat/completions"
+# Construct the final API URL
+FINAL_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL_NAME}:generateContent"
 
 # --- Conversation Memory Storage ---
-# Stores the list of message dicts (role and content) for context
-# Start with a system message to set the AI's persona
-CONVERSATION_SYSTEM_MESSAGE = {"role": "system", "content": "You are Baymax, a friendly, compassionate, and helpful healthcare companion. Keep your answers concise and supportive."}
-conversation_history = [CONVERSATION_SYSTEM_MESSAGE]
+# The system message sets the AI's persona and is sent separately in the Gemini API payload
+CONVERSATION_SYSTEM_MESSAGE = "You are Baymax, a friendly, compassionate, and helpful healthcare companion from the movie 'Big Hero 6'. You provide health and first-aid advice, but always remind the user that you are an AI and not a substitute for a human doctor. Keep your tone gentle, supportive, and informative."
 
+# Stores the list of message dicts (role and content) for conversation context
+# Starts empty, system instruction is passed in the request body
+conversation_history = []
 
 # --- Routes ---
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def home():
+    """Renders a simple HTML page, though the front-end seems to use separate files."""
+    return "Backend is running. Access the chat interface via chatindex.html."
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    # Use the global history variable
+    """Endpoint for handling user messages and calling the Gemini API."""
     global conversation_history
-
-    data = request.get_json()
-    user_message = data.get('message', '')
-
-    if not user_message:
-        return jsonify({"response": "Please send a message."}), 400
-
-    headers = {
-        "Authorization": f"Bearer {SAMBANOVA_API_KEY}",
-        "Content-Type": "application/json",
-    }
     
-    # 1. Add the new user message to the history
-    conversation_history.append({"role": "user", "content": user_message})
-
-    request_data = {
-        "model": SAMBANOVA_MODEL_NAME, 
-        # 2. Send the entire conversation history to the API
-        "messages": conversation_history, 
-        "max_tokens": MAX_TOKENS, 
-        "temperature": 0.7 
-    }
-
     try:
-        response = requests.post(FINAL_API_URL, json=request_data, headers=headers)
-        # Check if the response status is 4xx or 5xx
-        response.raise_for_status() 
-        api_data = response.json()
+        data = request.get_json()
+        user_message = data.get('message')
         
-        # --- Extract the AI Response ---
-        if 'choices' in api_data and api_data['choices']:
-            bot_response = api_data['choices'][0]['message']['content'].strip()
-            # 3. Add the bot's response to the history for the next turn
-            conversation_history.append({"role": "assistant", "content": bot_response})
-        else:
-            bot_response = f"The AI returned an unexpected response format: {api_data}"
-            # If the API fails to respond correctly, remove the last user message to prevent sending it without context
-            if conversation_history and conversation_history[-1]['role'] == 'user':
-                conversation_history.pop() 
+        if not user_message:
+            return jsonify({"response": "Please enter a message."}), 400
 
-        return jsonify({"response": bot_response})
+        # 1. Prepare and append the new user message to history
+        new_user_message = {"role": "user", "parts": [{"text": user_message}]}
+        conversation_history.append(new_user_message)
 
-    # --- ENHANCED EXCEPTION HANDLING ---
-    
-    except requests.exceptions.HTTPError as errh:
-        # On API error, remove the last user message
-        if conversation_history and conversation_history[-1]['role'] == 'user':
-            conversation_history.pop()
+        # 2. Construct the Gemini API Payload
+        headers = {
+            'Content-Type': 'application/json',
+            # API key is sent in the header for the Generative Language API
+            'x-goog-api-key': GEMINI_API_KEY
+        }
+
+        # The payload includes the entire history and the system instruction separately
+        payload = {
+            "contents": conversation_history,
+            # FIX: Renamed 'config' to 'generationConfig' as required by the API
+            "generationConfig": {
+                "maxOutputTokens": MAX_TOKENS,
+                "temperature": TEMPERATURE,
+            },
+            # System instruction is used to define the model's persona
+            "systemInstruction": {
+                "parts": [
+                    {"text": CONVERSATION_SYSTEM_MESSAGE}
+                ]
+            }
+        }
+        
+        # 3. Make the API Call
+        response = requests.post(FINAL_API_URL, headers=headers, json=payload)
+        response.raise_for_status() # Will raise an exception for bad HTTP status codes (4xx or 5xx)
+
+        # 4. Extract and process the response
+        json_response = response.json()
+        
+        # Check if we got a valid response candidate
+        candidates = json_response.get('candidates', [])
+        if not candidates:
+            # Check for block reason if no candidates are present
+            prompt_feedback = json_response.get('promptFeedback', {})
+            safety_ratings = prompt_feedback.get('safetyRatings', [])
+            block_reason = prompt_feedback.get('blockReason', 'Unknown reason')
             
-        error_status_code = response.status_code if 'response' in locals() else 500
+            if safety_ratings:
+                # Format safety ratings for a useful error message
+                rating_details = ", ".join([
+                    f"{r['category'].split('_')[-1]}: {r['probability']}" 
+                    for r in safety_ratings
+                ])
+                raise Exception(f"Request blocked. Reason: {block_reason}. Safety scores: {rating_details}")
+            
+            raise Exception("Gemini API returned no response candidates.")
+            
+        candidate = candidates[0]
+        parts = candidate.get('content', {}).get('parts', [])
         
-        # Try to parse the API's detailed error message
-        error_detail = "Unknown API Error"
-        if 'response' in locals() and response.content:
-            try:
-                error_detail = response.json().get('detail', str(errh))
-            except requests.exceptions.JSONDecodeError:
-                error_detail = response.text # Use raw text if JSON parsing fails
+        if not parts or not parts[0].get('text'):
+            raise Exception("Gemini API returned an empty text response.")
+            
+        bot_response_text = parts[0].get('text')
         
-        # Explicitly handle the 429 error
-        if error_status_code == 429:
-            return jsonify({"response": f"API Error ({error_status_code} TOO MANY REQUESTS): You have exceeded the rate limit. Please wait a moment before trying again."}), 429
+        # 5. Append the model's response to the conversation history
+        new_model_message = {"role": "model", "parts": [{"text": bot_response_text}]}
+        conversation_history.append(new_model_message)
+        
+        return jsonify({"response": bot_response_text})
 
-        # Handle all other HTTP errors (4xx/5xx)
-        return jsonify({"response": f"API Error ({error_status_code}): {error_detail}. Check your API Key and Model ID ({SAMBANOVA_MODEL_NAME})."}), error_status_code
-        
-    except requests.exceptions.ConnectionError as errc:
-        # Catch connection failures (e.g., DNS error, connection refused)
+    except requests.exceptions.HTTPError as errh:
+        # On API error, remove the last user message so it can be retried or not pollute the history
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
-        return jsonify({"response": f"Connection Error: Could not connect to the SambaNova API: {errc}"}), 503
         
-    except requests.exceptions.Timeout as errt:
-        # Catch timeout errors
-        if conversation_history and conversation_history[-1]['role'] == 'user':
-            conversation_history.pop()
-        return jsonify({"response": f"Timeout Error: The request to the SambaNova API timed out: {errt}"}), 504
+        # Try to extract the error message from the response body if available
+        error_detail = "Unknown error"
+        try:
+            error_detail = response.json().get('error', {}).get('message', str(errh))
+        except:
+            error_detail = str(errh)
+            
+        return jsonify({"response": f"API Error ({response.status_code}): {error_detail}. Check your API Key or model name ({GEMINI_MODEL_NAME})."}), 500
         
     except requests.exceptions.RequestException as e:
-        # Catch any other requests-related exception (e.g., invalid URL)
+        # Connection error, DNS failure, etc.
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
-        return jsonify({"response": f"A general Request Error occurred: {e}"}), 500
+        return jsonify({"response": f"Connection Error: Could not reach the Gemini API endpoint. Details: {e}"}), 500
         
     except Exception as e:
-        # Catch unexpected Python errors
+        # General unexpected errors
         if conversation_history and conversation_history[-1]['role'] == 'user':
             conversation_history.pop()
         return jsonify({"response": f"An unexpected internal error occurred: {e}"}), 500
+
 
 @app.route('/reset', methods=['POST'])
 def reset_chat():
     """Endpoint to clear the conversation history."""
     global conversation_history
-    # Reset history back to just the system message
-    conversation_history = [CONVERSATION_SYSTEM_MESSAGE]
+    # Reset history to an empty list
+    conversation_history = []
     return jsonify({"status": "ok", "message": "Conversation history reset."})
 
 # --- Main Run Block ---
 if __name__ == '__main__':
-    # Setting debug to True allows for immediate feedback during development
+    # Flask will run on http://0.0.0.0:5000/
     app.run(host='0.0.0.0', port=5000, debug=True)
