@@ -1,109 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medibot-Baymax</title>
-    <!-- Assuming chatstyles.css is in the same directory -->
-    <link rel="stylesheet" href="chatstyles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medibot AI Companion - Baymax</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div class="chat-container">
-        <h1>Medibot AI Companion- <span class="animated-name">Baymax</span></h1>
-        <div class="chat-box" id="chat-box">
-            <div class="message bot-message">Hello! I am Baymax, your personal healthcare companion. On a scale of 1 to 10, how would you rate your pain?</div>
-        </div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Type your message..." required>
-            <button type="submit">Send</button>
-        </form>
+<body class="wallpaper-carousel"> <header class="site-header">
+    <div class="container">
+      <a href="#home" class="logo">MKure</a>
+      <nav class="main-nav">
+        <a class="active" href="#home">Home</a>
+        <a href="doc.html" class="doc-btn">Contact Doctors</a>
+        <a href="login.html" class="login-btn">Login</a>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
-        const chatBox = document.getElementById('chat-box');
+  <main>
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">⚕️ Medibot AI Companion ⚕️</h1>
+          <p class="hero-subtitle">Hi! I am Baymax, your personal health companion. How can I assist you today?</p>
+        </div>
+        <div class="hero-image-container">
+            <div class="image-wrapper baymax-wrapper">
+                <img src="https://i.pinimg.com/736x/01/a0/13/01a0137f1b7d9dc523661357eda75a2a.jpg" alt="Baymax">
+            </div>
+            <div class="image-wrapper mkure-wrapper">
+                <img src="https://i.pinimg.com/736x/78/85/67/788567d42c34ab8b31504d580b3595c1.jpg" alt="MKurelogo">
+            </div>
+        </div>
+      </div>
+    </section>
 
-        // --- TEXT-TO-SPEECH FUNCTION ---
-        function speakText(text) {
-            // Check if the browser supports the Web Speech API
-            if ('speechSynthesis' in window) {
-                // First, cancel any existing speech to prevent messages from overlapping
-                window.speechSynthesis.cancel(); 
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                // Set a slightly slower rate (0.9) to mimic Baymax's calm and deliberate voice
-                utterance.rate = 0.9; 
-                
-                window.speechSynthesis.speak(utterance);
-            } else {
-                console.warn("Text-to-Speech not supported in this browser.");
-            }
-        }
+    <section id="features" class="features-section">
+      <div class="container">
+        <h2 class="section-title">What would you like to do?</h2>
+        <div class="features-grid">
+
+          <div class="feature-card">
+            <a href="chatindex.html" class="card-link">
+              <div class="icon-placeholder">ߔ</div>
+              <h3>Symptom Checker</h3>
+              <p>Analyze your symptoms for a potential diagnosis.</p>
+            </a>
+          </div>
+
+          <div class="feature-card">
+            <a href="doc.html" class="card-link">
+              <div class="icon-placeholder">ߩ</div>
+              <h3>Find a Doctor</h3>
+              <p>Locate nearby specialists and clinics.</p>
+            </a>
+          </div>
 
 
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', `${sender}-message`);
-            messageDiv.innerHTML = text; 
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+        </div>
+      </div>
+    </section>
+  </main>
 
-            // If the message is from the bot, trigger the voice output
-            if (sender === 'bot') {
-                speakText(text);
-            }
-        }
-
-        // Initialize the conversation with a spoken message from the bot
-        // We delay it slightly to ensure the voices have loaded.
-        document.addEventListener('DOMContentLoaded', () => {
-             // Initial message text is already in the HTML, we'll just speak it.
-             const initialMessage = document.querySelector('.bot-message').textContent;
-             setTimeout(() => speakText(initialMessage), 500); 
-        });
-
-        chatForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); 
-            
-            const userMessage = userInput.value.trim();
-            if (!userMessage) return;
-
-            // Stop any current speech when the user sends a new message
-            window.speechSynthesis.cancel();
-
-            addMessage(userMessage, 'user');
-            userInput.value = ''; 
-            userInput.disabled = true;
-
-            try {
-                // Assuming your Python Flask app is running on localhost:5000
-                const response = await fetch('http://localhost:5000/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userMessage })
-                });
-
-                const data = await response.json();
-                const responseText = data.response;
-
-                if (response.ok) {
-                    // The addMessage function will call speakText automatically
-                    addMessage(responseText, 'bot'); 
-                } else {
-                    addMessage(`Error: ${responseText}`, 'bot');
-                }
-
-            } catch (error) {
-                console.error('Fetch error:', error);
-                addMessage('Network Error: Could not reach the Python backend.', 'bot');
-            } finally {
-                userInput.disabled = false;
-                userInput.focus();
-            }
-        });
-    </script>
+  <footer class="site-footer">
+    <div class="container">
+        <p>&copy; 2025 MKure. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
