@@ -1,0 +1,156 @@
+/* doc_styles.css */
+
+/* --- Layout and Container --- */
+.data-search-main {
+    /* Use a similar background to the main page sections */
+    background-color: rgba(30, 30, 30, 0.8);
+    padding: 80px 0;
+    min-height: calc(100vh - 180px); /* Fill screen minus header/footer height */
+}
+
+.search-container {
+    max-width: 800px;
+    padding: 40px;
+    background-color: var(--card-bg); /* Dark background from main theme */
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.search-container h1 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.search-container p {
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+/* --- Search Form --- */
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#keyword-input {
+    flex-grow: 1;
+    padding: 15px 20px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+}
+
+#keyword-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
+}
+
+.search-form button {
+    padding: 15px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.search-form button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* --- Results Section --- */
+.status-message {
+    color: #e53935;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+}
+
+.result-card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.result-card h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    border-bottom: 1px dashed #555;
+    padding-bottom: 10px;
+}
+
+.card-detail h4 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.card-detail p {
+    color: #ddd;
+    font-size: 0.95rem;
+}
+
+/* --- NEW: Doctor List Styling --- */
+.doctor-list-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #555;
+}
+
+.doctor-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.doctor-item {
+    background-color: #444;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.doctor-item strong {
+    color: #fff;
+}
+
+.doctor-item .specialty {
+    color: #a0a0a0;
+    font-style: italic;
+}
+
+.doctor-item .contact {
+    color: #ffcc00; /* Use a distinct color for contact info */
+    display: block;
+    margin-top: 3px;
+}
+
+/* --- Responsive adjustment --- */
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+    }
+    .search-form button {
+        width: 100%;
+    }
+}
