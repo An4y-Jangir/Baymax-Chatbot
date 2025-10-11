@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Search - MKure</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="fadstyle1.css"> </head>
+<body class="wallpaper-carousel">
+    
+    <header class="site-header">
+        <div class="container">
+          <a href="index.html" class="logo">MKure</a>
+          <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a class="active" href="doc.html">Contact Doctors</a>
+            <a href="login.html" class="login-btn">Login</a>
+          </nav>
+        </div>
+      </header>
+
+    <main class="data-search-main">
+        <div class="container search-container">
+            <h1>Keyword Data Search</h1>
+            <p>Enter a symptom or condition name to retrieve structured information from our database.</p>
+            
+            <form id="search-form" class="search-form">
+                <input type="text" id="keyword-input" placeholder="e.g., fever, headache, allergies" required>
+                <button type="submit">Search Data</button>
+            </form>
+
+            <div id="status-message" class="status-message"></div>
+            
+            <div id="results-container" class="results-container">
+                </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 MKure. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const searchForm = document.getElementById('search-form');
+        const keywordInput = document.getElementById('keyword-input');
+        const resultsContainer = document.getElementById('results-container');
+        const statusMessage = document.getElementById('status-message');
+
+        searchForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const keyword = keywordInput.value.trim();
+            resultsContainer.innerHTML = '';
+            statusMessage.textContent = 'Searching...';
+
+            if (!keyword) {
+                statusMessage.textContent = 'Please enter a keyword.';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5001/search_data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keyword: keyword })
+                });
+
+                const data = await response.json();
+                statusMessage.textContent = data.message;
+
+                if (response.ok && data.results && data.results.length > 0) {
+                    displayResults(data.results);
+                } else if (!data.results || data.results.length === 0) {
+                    // No results found, status message already set
+                } else {
+                    statusMessage.textContent = `Error: ${data.error || 'Failed to retrieve data.'}`;
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                statusMessage.textContent = 'Network Error: Could not connect to the search service.';
+            }
+        });
+
+        function displayResults(results) {
+            results.forEach(record => {
+                // --- Start Doctor List HTML Generation (Modified) ---
+                let doctorsHtml = '';
+                if (record.recommended_doctors_india && record.recommended_doctors_india.length > 0) {
+                    doctorsHtml = record.recommended_doctors_india.map(doctor => {
+                        let contactLink = doctor.contact;
+                        let contactElement;
+                        
+                        // Logic to check the type of contact and create a link or plain text
+                        if (contactLink.startsWith('http')) {
+                            contactText = 'Visit Website';
+                            contactElement = `<a href="${contactLink}" target="_blank" class="doctor-link">${contactText}</a>`;
+                        } else if (contactLink.startsWith('tel:')) {
+                            contactText = 'Call Now';
+                            contactElement = `<a href="${contactLink}" class="doctor-link">${contactText}</a>`;
+                        } else {
+                            // Default to plain text display
+                            contactElement = `<span class="contact-text">${contactLink}</span>`;
+                        }
+                        
+                        return `
+                            <li class="doctor-item">
+                                <strong>${doctor.name}</strong> 
+                                <span class="specialty">(${doctor.specialty})</span><br>
+                                <span class="contact">Contact: ${contactElement}</span>
+                            </li>
+                        `;
+                    }).join('');
+                    
+                    doctorsHtml = `
+                        <div class="card-detail doctor-list-section">
+                            <h4>Recommended Specialists (India):</h4>
+                            <ul class="doctor-list">${doctorsHtml}</ul>
+                        </div>
+                    `;
+                }
+                // --- End Doctor List HTML Generation ---
+
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <h3>${record.name}</h3>
+                    <div class="card-detail">
+                        <h4>Symptoms:</h4>
+                        <p>${record.symptoms}</p>
+                    </div>
+                    <div class="card-detail">
+                        <h4>Treatment:</h4>
+                        <p>${record.treatment}</p>
+                    </div>
+                    ${doctorsHtml} `;
+                resultsContainer.appendChild(card);
+            });
+        }
+    </script>
+    
+</body>
+</html>
