@@ -1,0 +1,156 @@
+/* doc.css - Styling for the Find a Doctor page */
+
+/* Import global variables and Poppins font from style.css */
+@import url('style.css'); 
+
+/* --- Global & Header Overrides --- */
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    padding-top: 80px; /* Space for the sticky header */
+}
+
+/* Remove image and redundant header content from doc.html */
+.bg, header img, header .site-header {
+    display: none;
+}
+
+/* Ensure the main header is used for sticking */
+.site-header {
+    position: fixed; /* Use fixed for this page to keep it clean */
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* --- Main Content Headers --- */
+.headers {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-top: 40px;
+}
+
+#inp {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 50px;
+}
+
+/* --- Tile Container Grid --- */
+#container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    /* Responsive grid with a minimum card width of 300px */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding-bottom: 80px;
+}
+
+/* --- Individual Tile Styling --- */
+.item-container {
+    perspective: 1000px; /* For 3D transform effect */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.item-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(196, 2, 2, 0.35); /* Red glow on hover */
+}
+
+.card-link {
+    /* Critical for overlay positioning */
+    position: relative;
+    display: block;
+    width: 100%;
+    /* Set a fixed height for all tiles */
+    height: 350px; 
+    text-decoration: none;
+    color: var(--text-color);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+/* --- Image Styling (The Picture) --- */
+.card-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the tile without stretching */
+    transition: transform 0.5s ease;
+}
+
+.item-container:hover .card-link img {
+    transform: scale(1.05); /* Slight zoom on image hover */
+}
+
+/* --- Heading Text Styling (The Overlay) --- */
+.card-link p {
+    /* Positioning the text overlay */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    margin: 0; /* Override default margin */
+    
+    /* Initial state (hidden/low visibility) */
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    
+    /* The effect: start transparent and low, transition opacity and transform */
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease, transform 0.5s ease;
+    z-index: 10;
+}
+
+/* State when hovering over the whole tile */
+.item-container:hover .card-link p {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Slides up to show */
+    /* Enhance background slightly on hover for focus */
+    background-color: rgba(196, 2, 2, 0.9);
+    color: var(--text-color);
+}
+
+
+/* --- Footer Styling --- */
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 650px) {
+    .headers {
+        font-size: 2rem;
+    }
+    #inp {
+        font-size: 1rem;
+    }
+    #container {
+        grid-template-columns: 1fr; /* Stack tiles vertically on small screens */
+        gap: 20px;
+    }
+    .card-link {
+        height: 250px;
+    }
+    .card-link p {
+        font-size: 1.3rem;
+    }
+}
