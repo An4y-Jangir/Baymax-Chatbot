@@ -7,18 +7,22 @@ from flask_cors import CORS # Ensure this is installed: pip install flask-cors
 app = Flask(__name__)
 CORS(app) 
 
-DATA_FILE = 'medical_data.json'
+# FIX: Use os.path functions to construct an absolute path
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DATA_FILE_NAME = 'medical_data.json'
+DATA_FILE_PATH = os.path.join(BASE_DIR, DATA_FILE_NAME)
 
 def load_data():
-    """Loads the medical data from the JSON file."""
+    """Loads the medical data from the JSON file using the absolute path."""
     try:
-        with open(DATA_FILE, 'r') as f:
+        # Use the fixed absolute path
+        with open(DATA_FILE_PATH, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Error: {DATA_FILE} not found.")
+        print(f"Error: {DATA_FILE_PATH} not found. Please ensure it is in the same directory as fadapp1.py.")
         return []
     except json.JSONDecodeError:
-        print(f"Error: Could not decode JSON from {DATA_FILE}.")
+        print(f"Error: Could not decode JSON from {DATA_FILE_PATH}. Check JSON structure.")
         return []
 
 # --- API Endpoint ---
@@ -64,13 +68,13 @@ def search_data():
         })
 
 # --- Web Route for the new Search Page ---
-@app.route('/doc.html')
+@app.route('/fadindex1.html')
 def doc_page():
     # Renders the HTML file for the data search interface
-    return render_template('doc.html')
+    return render_template('fadindex1.html')
 
 # --- Main Run Block ---
 if __name__ == '__main__':
-    # NOTE: If you run your existing app.py, ensure this data search
-    # logic and the /doc.html route are integrated there.
-    app.run(host='0.0.0.0', port=5001)
+    # Flask will run on http://0.0.0.0:5001/
+    # NOTE: It's common to run this on a different port (e.g., 5001) if app.py is already on 5000.
+    app.run(host='0.0.0.0', port=5001, debug=True)
