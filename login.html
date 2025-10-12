@@ -8,54 +8,57 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    
     <div class="container">
         <div class="form-box login">
-            <form action="#">
+            <form id="login-form">
                 <h1>Login</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Username" required>
-                    <i class='bx bxs-user'></i>
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <i class='bx bxs-envelope'></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
                     <i class='bx bxs-lock-alt' ></i>
                 </div>
+                <p class="error-message" id="login-error-message" style="color: #be0303; margin-top: -10px; font-size: 14px; min-height: 20px;"></p>
                 <div class="forgot-link">
                     <a href="#">Forgot Password?</a>
                 </div>
                 <button type="submit" class="btn">Login</button>
                 <p>or login with social platforms</p>
                 <div class="social-icons">
-                    <a href="#"><i class='bx bxl-google' ></i></a>
-                    <a href="#"><i class='bx bxl-facebook' ></i></a>
-                    <a href="#"><i class='bx bxl-github' ></i></a>
-                    <a href="#"><i class='bx bxl-linkedin' ></i></a>
+                    <a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&dsh=S-1424075103%3A1760270820161103&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AfYwgwXPNwG3x0LtDWVKKV-DuB-mqhnCqiWOJzatdHIM_su3grDu6kVLCA11A5fP_FRA0k6jrSzp&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin"><i class='bx bxl-google' ></i></a>
+                    <a href="https://m.facebook.com/?lid=0OHWuChhf3NOcCdnz&tade=Q7fLBQE4cgoyoD3x4OrjAYKSb3V5jfXmWkXqE9mcjLJuLkgtF5BDk8qXdQ7HXmnYSd3IU2h57JLFRVRNTraex1doP1gPUdaY2H3BYPdpdojIDHYMoUZvKX7jjesLT%2B5pxVhgrG9Hfw%3D%3D&srlva=1&lva_token=zUAMxadiWTUZW1wQ&lva_blob=Abi-bg0hFuoU9-d1zw51rf2j6Ho5oYZGFIyV2ySPEoVwT4406B84GJNp9bxz9EnJDT1D3GNyoJnnr1wZs9-ACTA1f1UrAnchBP5n0z-0ey4-5X-qUD8p875Ow25UuJuvjj82uZO0vuA8SE1tkjCEFafkNJ1E7ktdQazPfFeRW8GqpjC5IX2Skdojeyj5q4DlkYl0lYPJa34Ryvo5UvqbXKVfVg6ywBJAusQGv6WT9o8RaBWcgd7aQjQRU6-IrbDS4_-LmXdXxY809HTVfO-1E_2vdmKVtUbxOAPMS1f0YaIaT7oXt7pH87K36XnEFi9mMG9GOwTF_nZRX9Tre8tks989wOvZjhvSd2MkxLjs69RJt8abcC89LHGfi3PSw2-2yNRUGckcmALC3R2sTWUurjK86wrGBbu9ty2c9ki56mpIZNPt4FHgOJOXrbArXGdXpDCP2Nt6m3gz12ws1kfQnPQLbb3mNBvrgLJVfRvu1U1Ss-r8qwZ4-w"><i class='bx bxl-facebook' ></i></a>
+                    <a href="https://github.com/login"><i class='bx bxl-github' ></i></a>
+                    <a href="https://www.linkedin.com/login"><i class='bx bxl-linkedin' ></i></a>
                 </div>
             </form>
         </div>
 
         <div class="form-box register">
-            <form action="#">
+            <form id="register-form">
                 <h1>Registration</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Username" required>
+                    <input type="text" id="register-username" placeholder="Username" required>
                     <i class='bx bxs-user'></i>
                 </div>
                 <div class="input-box">
-                    <input type="email" placeholder="Email" required>
+                    <input type="email" id="register-email" placeholder="Email" required>
                     <i class='bx bxs-envelope' ></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" id="register-password" placeholder="Password" required>
                     <i class='bx bxs-lock-alt' ></i>
                 </div>
+                <p class="error-message" id="register-error-message" style="color: #be0303; margin-top: -10px; font-size: 14px; min-height: 20px;"></p>
                 <button type="submit" class="btn">Register</button>
                 <p>or register with social platforms</p>
                 <div class="social-icons">
-                    <a href="#"><i class='bx bxl-google' ></i></a>
-                    <a href="#"><i class='bx bxl-facebook' ></i></a>
-                    <a href="#"><i class='bx bxl-github' ></i></a>
-                    <a href="#"><i class='bx bxl-linkedin' ></i></a>
+                    <a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&dsh=S-1424075103%3A1760270820161103&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AfYwgwXPNwG3x0LtDWVKKV-DuB-mqhnCqiWOJzatdHIM_su3grDu6kVLCA11A5fP_FRA0k6jrSzp&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin"><i class='bx bxl-google' ></i></a>
+                    <a href="https://m.facebook.com/?lid=0OHWuChhf3NOcCdnz&tade=Q7fLBQE4cgoyoD3x4OrjAYKSb3V5jfXmWkXqE9mcjLJuLkgtF5BDk8qXdQ7HXmnYSd3IU2h57JLFRVRNTraex1doP1gPUdaY2H3BYPdpdojIDHYMoUZvKX7jjesLT%2B5pxVhgrG9Hfw%3D%3D&srlva=1&lva_token=zUAMxadiWTUZW1wQ&lva_blob=Abi-bg0hFuoU9-d1zw51rf2j6Ho5oYZGFIyV2ySPEoVwT4406B84GJNp9bxz9EnJDT1D3GNyoJnnr1wZs9-ACTA1f1UrAnchBP5n0z-0ey4-5X-qUD8p875Ow25UuJuvjj82uZO0vuA8SE1tkjCEFafkNJ1E7ktdQazPfFeRW8GqpjC5IX2Skdojeyj5q4DlkYl0lYPJa34Ryvo5UvqbXKVfVg6ywBJAusQGv6WT9o8RaBWcgd7aQjQRU6-IrbDS4_-LmXdXxY809HTVfO-1E_2vdmKVtUbxOAPMS1f0YaIaT7oXt7pH87K36XnEFi9mMG9GOwTF_nZRX9Tre8tks989wOvZjhvSd2MkxLjs69RJt8abcC89LHGfi3PSw2-2yNRUGckcmALC3R2sTWUurjK86wrGBbu9ty2c9ki56mpIZNPt4FHgOJOXrbArXGdXpDCP2Nt6m3gz12ws1kfQnPQLbb3mNBvrgLJVfRvu1U1Ss-r8qwZ4-w"><i class='bx bxl-facebook' ></i></a>
+                    <a href="https://github.com/login"><i class='bx bxl-github' ></i></a>
+                    <a href="https://www.linkedin.com/login"><i class='bx bxl-linkedin' ></i></a>
                 </div>
             </form>
         </div>
@@ -64,17 +67,18 @@
             <div class="toggle-panel toggle-left">
                 <h1>Hello, Welcome!</h1>
                 <p>Don't have an account?</p>
-                <button class="btn register-btn">Register</button>
+                <button type="button" class="btn register-btn">Register</button>
             </div>
 
             <div class="toggle-panel toggle-right">
                 <h1>Welcome Back!</h1>
                 <p>Already have an account?</p>
-                <button class="btn login-btn">Login</button>
+                <button type="button" class="btn login-btn">Login</button>
             </div>
         </div>
     </div>
 
     <script src="login.js"></script>
+    
 </body>
 </html>
