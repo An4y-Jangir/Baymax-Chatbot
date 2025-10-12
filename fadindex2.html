@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARS Health Companion</title>
+    <style>
+        /* The CSS from fadstyle2.css is now embedded directly in the HTML file */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #e60000;
+            --secondary-color: #ff4d4d;
+            --background-color: #000000;
+            --surface-color: #1a1a1a;
+            --text-color: #ffffff;
+            --user-bubble-color: #333333;
+            --bot-bubble-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #chat-container {
+            width: 95%;
+            max-width: 750px;
+            height: 90vh;
+            background: var(--surface-color);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #444;
+        }
+
+        #header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        #header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #conversation {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        #conversation::-webkit-scrollbar { width: 8px; }
+        #conversation::-webkit-scrollbar-track { background: transparent; }
+        #conversation::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 10px;
+        }
+
+        .message {
+            display: flex;
+            max-width: 85%;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message { align-self: flex-end; }
+        .bot-message { align-self: flex-start; }
+
+        .message-bubble {
+            padding: 14px 20px;
+            border-radius: 24px;
+            line-height: 1.6;
+            min-height: 24px;
+        }
+
+        .user-message .message-bubble {
+            background: var(--user-bubble-color);
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .bot-message .message-bubble {
+            background: var(--bot-bubble-color);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 6px;
+        }
+
+        .bot-message a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .bot-message a:hover {
+            color: #ff7f7f;
+            text-decoration: underline;
+        }
+
+        #input-area {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid #444;
+            gap: 15px;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            background-color: #2c2c2c;
+            color: var(--text-color);
+            border: 1px solid #444;
+            border-radius: 28px;
+            padding: 16px 22px;
+            font-size: 1em;
+            resize: none;
+            transition: all 0.3s;
+        }
+
+        #user-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(230, 0, 0, 0.3);
+        }
+
+        .button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            font-size: 1.8em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        #reset-button {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="header"><h1>TARS</h1></div>
+        <div id="conversation"></div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Ask about doctors...">
+            <button id="send-button" class="button">➤</button>
+            <button id="reset-button" class="button">♻</button>
+        </div>
+    </div>
+
+    <script>
+        const conversationDiv = document.getElementById('conversation');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const resetButton = document.getElementById('reset-button');
+
+        // Function to find and format clickable links in the bot's response
+        function linkify(text) {
+            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            return text.replace(urlRegex, function(url) {
+                return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+            });
+        }
+        
+        // Function to create a typewriter effect for the bot's messages
+        function typeWriterEffect(element, text, callback) {
+            let i = 0;
+            const typingSpeed = 20; // Milliseconds per character
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    conversationDiv.scrollTop = conversationDiv.scrollHeight;
+                    setTimeout(type, typingSpeed);
+                } else if (callback) {
+                    callback(); // Execute callback after typing is complete
+                }
+            }
+            type();
+        }
+
+        // Adds a new message to the chat window
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            
+            const bubble = document.createElement('div');
+            bubble.classList.add('message-bubble');
+
+            if (sender === 'bot') {
+                messageDiv.appendChild(bubble);
+                conversationDiv.appendChild(messageDiv);
+                // Apply the typewriter effect and then linkify the result
+                typeWriterEffect(bubble, text, () => {
+                    bubble.innerHTML = linkify(bubble.innerHTML);
+                });
+            } else {
+                bubble.innerText = text;
+                messageDiv.appendChild(bubble);
+                conversationDiv.appendChild(messageDiv);
+            }
+            // Auto-scroll to the latest message
+            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+        }
+
+        // Sends the user's message to the backend
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendButton.disabled = true;
+
+            try {
+                // The fetch URL points to the /chat endpoint on our Flask server
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                addMessage('bot', data.response);
+
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('bot', 'Sorry, I couldn\'t connect to the server. Please try again.');
+            } finally {
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                userInput.focus();
+            }
+        }
+        
+        // Clears the chat window on the frontend
+        function resetConversation() {
+            conversationDiv.innerHTML = '';
+            addMessage('bot', 'Hello! How can I help you find a doctor today?');
+        }
+
+        // Event listener for the "Enter" key
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) { // Send on Enter, not Shift+Enter
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Event listeners for the buttons
+        sendButton.addEventListener('click', sendMessage);
+        resetButton.addEventListener('click', resetConversation);
+        
+        // Display an initial greeting message from the bot
+        window.onload = () => {
+             addMessage('bot', 'Hello! I am TARS, your personal healthcare companion. How can I help you find a doctor?');
+        };
+    </script>
+</body>
+</html>
