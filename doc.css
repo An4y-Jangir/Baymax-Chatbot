@@ -5,7 +5,8 @@
 
 /* --- Global & Header Overrides --- */
 body {
-    background-color: var(--dark-bg);
+    /* FIX: Removed background-color to allow .wallpaper-carousel to display its background-image */
+    /* Original: background-color: var(--dark-bg); */ 
     color: var(--text-color);
     font-family: var(--font-family);
     padding-top: 80px; /* Space for the sticky header */
@@ -22,7 +23,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.95);
+    /* CHANGE 2: Made header slightly more transparent (0.9 opacity) */
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+/* CHANGE 1: Remove outline/border from login button */
+.login-btn {
+    outline: none !important; 
+    border: none !important;
 }
 
 /* --- Main Content Headers --- */
@@ -91,7 +99,7 @@ body {
     transform: scale(1.05); /* Slight zoom on image hover */
 }
 
-/* --- Heading Text Styling (The Overlay) --- */
+/* --- Heading Text Styling (The Overlay) */
 .card-link p {
     /* Positioning the text overlay */
     position: absolute;
@@ -132,8 +140,7 @@ body {
     margin-top: 50px;
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-}
+    color: rgba(255, 255, 255,1.0);}
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 650px) {
